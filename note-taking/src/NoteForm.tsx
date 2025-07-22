@@ -1,5 +1,5 @@
 import { Col, Form, Row, Stack, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreatableReactSelect from "react-select/creatable";
 import { useState } from "react";
 import { useRef } from "react";
@@ -19,6 +19,7 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
     const titleRef = useRef<HTMLInputElement>(null)
     const markdownRef = useRef<HTMLTextAreaElement>(null)
     const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+    const navigate = useNavigate()
 
 
     function handleSubmit(e: FormEvent) {
@@ -27,9 +28,10 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
         onSubmit({
             title: titleRef.current!.value,
             markdown: markdownRef.current!.value,
-            tags: [] 
+            tags: selectedTags,
         })
 
+        navigate("..") // Navigate back to the previous page after submission
     }
     return(
          <Form onSubmit={handleSubmit}>
